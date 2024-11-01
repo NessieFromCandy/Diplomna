@@ -1,0 +1,33 @@
+Library/
+Logs/
+Temp/
+.vs/
+Assets/ST&SFX/SoundTracks/
+Assets/Scenes/Laboratory.unity
+Assets/Scenes/Laboratory/Laboratory.unity
+Assets/Scenes/Laboratory/Laboratory.unity.meta
+.plastic/
+UserSettings/Layouts/default-2021.dwlt
+Assets/Unity.VisualScripting.Generated/VisualScripting.Flow.meta
+Assets/Unity.VisualScripting.Generated/VisualScripting.Flow/UnitOptions.db
+Assets/Unity.VisualScripting.Generated/VisualScripting.Flow/UnitOptions.db.meta
+ProjectSettings/VisualScriptingSettings.asset
+obj/Debug/
+Assets/Essentials/Epic Toon FX/Upgrade/
+Assets/Essentials/Epic Toon FX/Demo/
+Assets/Essentials/NavMeshPlus-master/navmeshplus.pdf
+Assets/Essentials/NavMeshPlus-master/navmeshplus.pdf.meta
+Assets/Essentials/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset
+Assets/Essentials/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset.meta
+Assets/Essentials/AstarPathfindingProject/ExampleScenes/
+Assets/Essentials/AllIn1SpriteShader/Demo/
+Assets/Essentials/AllIn1SpriteShader/2DRenderer-URP-Package.unitypackage
+Assets/Essentials/AllIn1SpriteShader/2DRenderer-URP-Package.unitypackage.meta
+Assets/Essentials/AllIn1SpriteShader/2DRenderer-URP-Package-2021.2+.unitypackage
+Assets/Essentials/AllIn1SpriteShader/2DRenderer-URP-Package-2021.2+.unitypackage.meta
+Assets/Essentials/AllIn1SpriteShader/Documentation.pdf
+Assets/Essentials/AllIn1SpriteShader/Documentation.pdf.meta
+*.csproj
+Assets/Plugins/CodeStage/
+UserSettings/
+ProjectSettings/
