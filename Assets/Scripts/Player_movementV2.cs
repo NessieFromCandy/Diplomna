@@ -25,6 +25,14 @@ public class PlayerMovement : MonoBehaviour
     public bool grounded;
     public bool onWall;
 
+    [Header("SideDashSettings")]
+    public float sideDashForce = 10f;
+    public float sideDashDuration = 1f;
+    public float sideDashCooldown = 1f;
+    public AnimationCurve sideDashCurve;
+    public bool sideDashRecoverVelocity;
+    public Vector3 sideDashLastVelocity;
+
     //Private Floats
     private float wallRunGravity = 1f;
     private float maxSlopeAngle = 35f;
@@ -40,6 +48,9 @@ public class PlayerMovement : MonoBehaviour
     private float x;
     private float y;
     private float vel;
+    private float sideDashCooldownTimer;
+    private float sideDashTimer;
+    private Vector3 sideDashDirection;
 
     //Private bools
     private bool readyToJump;
@@ -55,6 +66,7 @@ public class PlayerMovement : MonoBehaviour
     private bool cancellingGrounded;
     private bool cancellingWall;
     private bool cancellingSurf;
+    private bool sideDashLastVelocityRecovered;
 
     //Private Vector3's
     private Vector3 grapplePoint;
@@ -94,6 +106,7 @@ public class PlayerMovement : MonoBehaviour
     {
         //For moving
         Movement();
+        SideDash();
     }
 
     private void Update()
@@ -102,6 +115,14 @@ public class PlayerMovement : MonoBehaviour
         MyInput();
         //Looking around
         Look();
+        //Handle Dash Timer
+        if (sideDashCooldownTimer > 0) sideDashCooldownTimer -= Time.deltaTime;
+
+        if (sideDashTimer < sideDashDuration)
+        {
+            sideDashTimer += Time.deltaTime;
+            Mathf.Clamp(sideDashTimer, 0, sideDashDuration);
+        }
     }
 
     //Player input
@@ -118,6 +139,25 @@ public class PlayerMovement : MonoBehaviour
         if (Input.GetKeyUp(KeyCode.LeftShift))
         {
             StopCrouch();
+        }
+        if (sideDashCooldownTimer <= 0 && Input.GetKey(KeyCode.E))
+        {
+            if (Input.GetKey(KeyCode.A))
+            {
+                sideDashDirection = -orientation.transform.right;
+                sideDashTimer = 0;
+                sideDashCooldownTimer = sideDashCooldown;
+                sideDashLastVelocity = rb.velocity;
+                sideDashLastVelocityRecovered = false;
+            }
+            else if (Input.GetKey(KeyCode.D))
+            {
+                sideDashDirection = orientation.transform.right;
+                sideDashTimer = 0;
+                sideDashCooldownTimer = sideDashCooldown;
+                sideDashLastVelocity = rb.velocity;
+                sideDashLastVelocityRecovered = false;
+            }
         }
     }
 
@@ -136,7 +176,7 @@ public class PlayerMovement : MonoBehaviour
     //Scale player to original size
     private void StopCrouch()
     {
-        base.transform.localScale = new Vector3(1f, 1.5f, 1f);
+        base.transform.localScale = new Vector3(1f, 1f, 1f);
         base.transform.position = new Vector3(base.transform.position.x, base.transform.position.y + 0.5f, base.transform.position.z);
     }
 
@@ -148,7 +188,7 @@ public class PlayerMovement : MonoBehaviour
         float num = mag.x;
         float num2 = mag.y;
         CounterMovement(x, y, mag);
-        if (readyToJump && jumping)
+        if (readyToJump && jumping && (grounded || wallRunning))
         {
             Jump();
         }
@@ -203,6 +243,22 @@ public class PlayerMovement : MonoBehaviour
         rb.AddForce(orientation.transform.right * x * moveSpeed * Time.deltaTime * num4);
     }
 
+    private void SideDash()
+    {
+        if (sideDashTimer > sideDashDuration)
+        {
+            if (!sideDashLastVelocityRecovered)
+            {
+                sideDashLastVelocityRecovered = true;
+                rb.velocity = sideDashLastVelocity;
+            }
+            return;
+        }
+
+        float force = sideDashCurve.Evaluate(Mathf.InverseLerp(0, sideDashDuration, sideDashTimer)) * sideDashForce * rb.velocity.magnitude;
+        rb.velocity = sideDashDirection * force;
+    }
+
     //Ready to jump again
     private void ResetJump()
     {
@@ -212,6 +268,7 @@ public class PlayerMovement : MonoBehaviour
     //Player go fly
     private void Jump()
     {
+        MonoBehaviour.print($"{grounded} || {wallRunning} || {surfing} && {readyToJump}");
         if ((grounded || wallRunning || surfing) && readyToJump)
         {
             MonoBehaviour.print("jumping");

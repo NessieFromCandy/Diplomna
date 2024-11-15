@@ -521,16 +521,43 @@ MonoBehaviour:
   rb: {fileID: 4571549873165748325}
   whatIsGround:
     serializedVersion: 2
-    m_Bits: 256
+    m_Bits: 0
   whatIsWallrunnable:
     serializedVersion: 2
-    m_Bits: 256
+    m_Bits: 0
   sensitivity: 50
   moveSpeed: 4500
   walkSpeed: 20
   runSpeed: 1000
   grounded: 0
   onWall: 0
+  sideDashForce: 10
+  sideDashDuration: 0.1
+  sideDashCooldown: 1
+  sideDashCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: -0.10605475
+      outSlope: -0.10605475
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.17679559
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: -2.951086
+      outSlope: -2.951086
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.06353593
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &5769948303471114117
 GameObject:
   m_ObjectHideFlags: 0
